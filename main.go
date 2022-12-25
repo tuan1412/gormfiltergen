@@ -1,0 +1,5 @@
+package gormfiltergen
+
+func main() {
+
+}

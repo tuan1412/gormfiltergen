@@ -1,0 +1,1 @@
+GormFilterGen is code generator for gorm filter query 
