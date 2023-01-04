@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"go/types"
 	"golang.org/x/tools/go/packages"
 	"log"
 )
@@ -26,10 +28,15 @@ func main() {
 	// Step 2: Load Tags, filter Tag "filter"
 	// Step 3: Check Field Type, type Basic or type Named Time
 
-	//objLength := pkg.Types.Scope().NumChildren()
-	//
-	//for i := 0; i < objLength; i += 1 {
-	//	obj := pkg.Types.Scope().Child(i)
-	//	fmt.Println(obj)
-	//}
+	objNames := pkg.Types.Scope().Names()
+	structs := make([]*types.Struct, 0, len(objNames))
+
+	for _, name := range objNames {
+		obj := pkg.Types.Scope().Lookup(name)
+		structType, ok := obj.Type().Underlying().(*types.Struct)
+		if ok {
+			structs = append(structs, structType)
+		}
+	}
+	fmt.Println(len(structs))
 }
